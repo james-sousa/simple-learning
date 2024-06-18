@@ -1,0 +1,30 @@
+{% extends "courses/course_dashboard.html" %}
+
+{% block dashboard_content %}
+{% for announcement in announcements %}
+<div class="well">
+    <h2>
+        <a href="{% url 'cursos:show_announcement' slug=course.slug pk=announcement.id %}">{{announcement.title }}</a>
+    </h2>
+    <div class="announcement-content">
+        {{ announcement.content|linebreaks }}
+    </div>
+    
+    <p>
+        <a href="{% url 'cursos:show_announcement' slug=course.slug pk=announcement.id %}#comments">
+        <i class="fa fa-comments-o"></i>
+        {% with total_comments=announcement.comments.count %}
+        {{ total_comments }}
+        Comentário{{ total_comments|pluralize }}
+        {% endwith %}
+
+        </a>
+    </p>
+</div>
+
+{% empty %}
+<div class="well">
+    <h2>Nenhum anúncio criado</h2> 
+</div>
+{% endfor %}
+{% endblock %}
