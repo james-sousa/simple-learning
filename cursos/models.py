@@ -158,6 +158,122 @@ class Comment(models.Model):
         verbose_name_plural = 'Comentários'
         ordering = ['created_at']
 
+class LessonProgress(models.Model):
+    """
+    Modelo para rastrear o progresso de um usuário em cada aula.
+    """
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL, verbose_name='Usuário',
+        related_name='lesson_progress',
+        on_delete=models.CASCADE
+    )
+    lesson = models.ForeignKey(
+        Lesson, verbose_name='Aula', related_name='progress',
+        on_delete=models.CASCADE
+    )
+    completed = models.BooleanField('Concluída', default=False)
+    completed_at = models.DateTimeField('Concluída em', null=True, blank=True)
+    created_at = models.DateTimeField('Criado em', auto_now_add=True)
+    updated_at = models.DateTimeField('Atualizado em', auto_now=True)
+
+    def __str__(self):
+        return f'{self.user.username} - {self.lesson.name}'
+
+    class Meta:
+        verbose_name = 'Progresso da Aula'
+        verbose_name_plural = 'Progressos das Aulas'
+        unique_together = (('user', 'lesson'),)
+
+
+class CourseProgress(models.Model):
+    """
+    Modelo para rastrear o progresso geral de um usuário em um curso.
+    """
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL, verbose_name='Usuário',
+        related_name='course_progress',
+        on_delete=models.CASCADE
+    )
+    course = models.ForeignKey(
+        Course, verbose_name='Curso', related_name='progress',
+        on_delete=models.CASCADE
+    )
+    enrollment = models.OneToOneField(
+        Enrollment, verbose_name='Inscrição',
+        on_delete=models.CASCADE, related_name='progress'
+    )
+    completed_lessons = models.IntegerField('Aulas Concluídas', default=0)
+    total_lessons = models.IntegerField('Total de Aulas', default=0)
+    progress_percentage = models.FloatField('Percentual de Progresso', default=0.0)
+    completed_at = models.DateTimeField('Curso Concluído em', null=True, blank=True)
+    created_at = models.DateTimeField('Criado em', auto_now_add=True)
+    updated_at = models.DateTimeField('Atualizado em', auto_now=True)
+
+    def __str__(self):
+        return f'{self.user.username} - {self.course.name} ({self.progress_percentage}%)'
+
+    def calculate_progress(self):
+        """Calcula o percentual de progresso do usuário no curso."""
+        lessons = self.course.lessons.all().count()
+        if lessons == 0:
+            self.progress_percentage = 0.0
+        else:
+            completed = LessonProgress.objects.filter(
+                user=self.user,
+                lesson__course=self.course,
+                completed=True
+            ).count()
+            self.progress_percentage = (completed / lessons) * 100
+            self.completed_lessons = completed
+            self.total_lessons = lessons
+        return self.progress_percentage
+
+    class Meta:
+        verbose_name = 'Progresso do Curso'
+        verbose_name_plural = 'Progressos dos Cursos'
+        unique_together = (('user', 'course'),)
+
+
+class Certificate(models.Model):
+    """
+    Modelo para armazenar informações sobre o certificado do usuário.
+    """
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL, verbose_name='Usuário',
+        related_name='certificates',
+        on_delete=models.CASCADE
+    )
+    course = models.ForeignKey(
+        Course, verbose_name='Curso', related_name='certificates',
+        on_delete=models.CASCADE
+    )
+    course_progress = models.OneToOneField(
+        CourseProgress, verbose_name='Progresso do Curso',
+        on_delete=models.CASCADE, related_name='certificate'
+    )
+    certificate_number = models.CharField('Número do Certificado', max_length=50, unique=True)
+    issued_at = models.DateTimeField('Emitido em', auto_now_add=True)
+    certificate_file = models.FileField(
+        upload_to='certificates', verbose_name='Arquivo do Certificado',
+        null=True, blank=True
+    )
+
+    def __str__(self):
+        return f'Certificado {self.certificate_number} - {self.user.username}'
+
+    def generate_certificate_number(self):
+        """Gera um número único para o certificado."""
+        import hashlib
+        from django.utils import timezone
+        data = f'{self.user.id}{self.course.id}{timezone.now().isoformat()}'
+        return hashlib.md5(data.encode()).hexdigest()[:16].upper()
+
+    class Meta:
+        verbose_name = 'Certificado'
+        verbose_name_plural = 'Certificados'
+        unique_together = (('user', 'course'),)
+
+
 def post_save_announcement(instance, created, **kwargs):
     if created:
         subject = instance.title

@@ -1,0 +1,26 @@
+# Dependências do Projeto Simple Learning
+
+# Framework
+Django==4.1.7
+Pillow==9.5.0  # Para processamento de imagens
+
+# Certificados
+reportlab==4.0.6  # Para gerar PDFs
+
+# Email
+python-dotenv==1.0.0  # Para variáveis de ambiente
+
+# API (opcional)
+djangorestframework==3.14.0  # Para criar APIs REST
+
+# Database
+# sqlite3 (incluído no Python)
+
+# Desenvolvimento
+django-extensions==3.2.3  # Utilitários adicionais
+django-debug-toolbar==4.1.0  # Debug toolbar
+
+# Produção (opcional)
+gunicorn==21.2.0  # WSGI HTTP Server
+psycopg2-binary==2.9.6  # PostgreSQL adapter
+python-decouple==3.8  # Gerenciamento de configurações
