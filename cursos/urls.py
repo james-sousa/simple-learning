@@ -13,4 +13,11 @@ urlpatterns = [
     path('<slug:slug>/aulas/', views.lessons, name='lessons'),
     path('<slug:slug>/aulas/<int:pk>/', views.lesson, name='lesson'),
     path('<slug:slug>/materiais/<int:pk>/', views.material, name='material'),
+    
+    # Rotas de Progresso e Certificado
+    path('<slug:slug>/aulas/<int:lesson_id>/completar/', views.mark_lesson_complete, name='mark_lesson_complete'),
+    path('<slug:slug>/aulas/<int:lesson_id>/descompletar/', views.mark_lesson_incomplete, name='mark_lesson_incomplete'),
+    path('<slug:slug>/progresso/', views.get_course_progress, name='course_progress'),
+    path('<slug:slug>/certificado/download/', views.download_certificate, name='download_certificate'),
+    path('meus-certificados/', views.my_certificates, name='my_certificates'),
 ]
