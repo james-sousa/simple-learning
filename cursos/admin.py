@@ -42,7 +42,7 @@ class CourseProgressAdmin(admin.ModelAdmin):
 class CertificateAdmin(admin.ModelAdmin):
     list_display = ['certificate_number', 'user', 'course', 'issued_at']
     search_fields = ['user__username', 'course__name', 'certificate_number']
-    list_filter = ['issued_at', 'created_at']
+    list_filter = ['issued_at']
     readonly_fields = ['certificate_number', 'issued_at']
 
 admin.site.register(Course, CourseAdmin)
