@@ -1,31 +1,161 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="pure-g-r content-ribbon">
-    <div class="pure-u-1">
-        <h2>Informe seus dados de cadastro</h2>
-        <form class="pure-form pure-form-stacked" method="post">
-            {% csrf_token %}
-            <fieldset>
-                {{ form.non_field_errors }}
+<style>
+.login-container {
+    min-height: calc(100vh - 200px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+.login-card {
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    max-width: 450px;
+    width: 100%;
+    padding: 50px 40px;
+}
+.login-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+.login-header h2 {
+    color: #2c3e50;
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+.login-header p {
+    color: #666;
+    font-size: 14px;
+}
+.login-form-group {
+    margin-bottom: 25px;
+}
+.login-form-group label {
+    display: block;
+    color: #2c3e50;
+    font-weight: 600;
+    margin-bottom: 8px;
+    font-size: 14px;
+}
+.login-form-group input {
+    width: 100%;
+    padding: 14px 16px;
+    border: 2px solid #e0e0e0;
+    border-radius: 10px;
+    font-size: 15px;
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+}
+.login-form-group input:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102,126,234,0.1);
+}
+.login-btn {
+    width: 100%;
+    padding: 16px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 10px;
+}
+.login-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(102,126,234,0.4);
+}
+.login-links {
+    text-align: center;
+    margin-top: 30px;
+    padding-top: 25px;
+    border-top: 1px solid #e0e0e0;
+}
+.login-links a {
+    color: #667eea;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+.login-links a:hover {
+    color: #5568d3;
+}
+.login-links p {
+    margin: 8px 0;
+    color: #666;
+    font-size: 14px;
+}
+.error-message {
+    background: #fee;
+    color: #c33;
+    padding: 12px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    font-size: 14px;
+}
+.field-errors {
+    color: #ef4444;
+    font-size: 13px;
+    margin-top: 5px;
+}
+.login-icon {
+    width: 70px;
+    height: 70px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+    color: white;
+    font-size: 32px;
+}
+</style>
 
-                {% for field in form %}
-                <div class="pure-control-group">
-                    {{ field.label_tag }}
-                    {{ field }}
+<div class="login-container">
+    <div class="login-card">
+        <div class="login-header">
+            <div class="login-icon">👤</div>
+            <h2>Bem-vindo de volta!</h2>
+            <p>Entre com suas credenciais para continuar</p>
+        </div>
+        
+        <form method="post">
+            {% csrf_token %}
+            
+            {% if form.non_field_errors %}
+            <div class="error-message">
+                {{ form.non_field_errors }}
+            </div>
+            {% endif %}
+
+            {% for field in form %}
+            <div class="login-form-group">
+                {{ field.label_tag }}
+                {{ field }}
+                {% if field.errors %}
+                <div class="field-errors">
                     {{ field.errors }}
                 </div>
-                {% endfor %}
+                {% endif %}
+            </div>
+            {% endfor %}
 
-                <div class="pure-controls">
-                    <button type="submit" class="pure-button pure-button-primary">Entrar</button>
-                </div>
-            </fieldset>
-            <p>
-                Não é cadastrado? <a href="{% url 'accounts:register' %}" title="">Cadastre-se</a> <br />
-                Esqueceu a senha? <a href="{% url 'password_reset' %}" title="">Nova senha</a> <br />
-            </p>
+            <button type="submit" class="login-btn">Entrar</button>
         </form>
+        
+        <div class="login-links">
+            <p>Não tem uma conta? <a href="{% url 'accounts:register' %}">Cadastre-se aqui</a></p>
+            <p>Esqueceu a senha? <a href="{% url 'password_reset' %}">Recuperar senha</a></p>
+        </div>
     </div>
 </div>
 {% endblock %}

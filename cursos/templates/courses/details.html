@@ -3,69 +3,212 @@
 {% load static %}
 
 {% block content %}
-<div class="splash">
-    <div class="pure-g-r">
-        <div class="pure-u-1">
-            <div class="l-box splash-text">
-                <h1 class="splash-head">
-                    {{ course }}
-                </h1>
-                <h2 class="splash-subhead">
-                    {{ course.description }}
-                </h2>
-                <p>
-                    <a href="{%url 'cursos:enrollment' course.slug %}" class="pure-button primary-button">Inscreva-se</a>
-                </p>
+<style>
+.course-hero {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 80px 20px;
+    text-align: center;
+    border-radius: 0 0 30px 30px;
+    margin-bottom: 40px;
+}
+.course-hero h1 {
+    font-size: 48px;
+    font-weight: 700;
+    margin-bottom: 20px;
+}
+.course-hero p {
+    font-size: 20px;
+    opacity: 0.95;
+    margin-bottom: 30px;
+}
+.enroll-btn {
+    background: white;
+    color: #667eea;
+    padding: 15px 40px;
+    font-size: 18px;
+    font-weight: 600;
+    border-radius: 30px;
+    text-decoration: none;
+    display: inline-block;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+.enroll-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+}
+.course-content-section {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+.course-about {
+    background: white;
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    margin-bottom: 30px;
+}
+.course-about h2 {
+    color: #2c3e50;
+    font-size: 32px;
+    margin-bottom: 20px;
+    font-weight: 600;
+}
+.course-sidebar {
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    position: sticky;
+    top: 20px;
+}
+.course-image-preview {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+.sidebar-btn {
+    width: 100%;
+    background: #667eea;
+    color: white;
+    padding: 12px;
+    border-radius: 8px;
+    text-align: center;
+    display: block;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+.sidebar-btn:hover {
+    background: #5568d3;
+}
+.contact-section {
+    background: white;
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    margin-top: 40px;
+}
+.contact-section h3 {
+    color: #2c3e50;
+    font-size: 28px;
+    margin-bottom: 20px;
+}
+.success-message {
+    background: #10b981;
+    color: white;
+    padding: 15px 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+.form-group {
+    margin-bottom: 20px;
+}
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: #2c3e50;
+    font-weight: 500;
+}
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 14px;
+    transition: border 0.3s ease;
+}
+.form-group input:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: #667eea;
+}
+.submit-btn {
+    background: #667eea;
+    color: white;
+    padding: 12px 30px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+.submit-btn:hover {
+    background: #5568d3;
+}
+.grid-layout {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 30px;
+    margin-top: 40px;
+}
+@media (max-width: 768px) {
+    .grid-layout {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+
+<div class="course-hero">
+    <h1>{{ course }}</h1>
+    <p>{{ course.description }}</p>
+    <a href="{% url 'cursos:enrollment' course.slug %}" class="enroll-btn">Inscreva-se Agora</a>
+</div>
+
+<div class="course-content-section">
+    <div class="grid-layout">
+        <div>
+            <div class="course-about">
+                <h2>Sobre o Curso</h2>
+                {{ course.about|linebreaks }}
+            </div>
+        </div>
+        
+        <div>
+            <div class="course-sidebar">
+                {% if course.image %}
+                <img src="{{ course.image.url }}" alt="{{ course.name }}" class="course-image-preview" />
+                {% else %}
+                <div class="course-image-preview" style="display:flex;align-items:center;justify-content:center;color:white;font-size:64px;font-weight:bold;">
+                    {{ course.name|slice:":1" }}
+                </div>
+                {% endif %}
+                <h4 style="margin-bottom:15px;color:#2c3e50;">Tem dúvidas?</h4>
+                <a href="#contato" class="sidebar-btn">Fale Conosco</a>
             </div>
         </div>
     </div>
-</div>
-<div class="pure-g-r content-ribbon">
-    <div class="pure-u-2-3">
-        <div class="l-box">
-            <h4 class="content-subhead">Sobre o Curso</h4>
-            {{ course.about|linebreaks }}
-        </div>
-    </div>
-    <div class="pure-u-1-3">
-        <div class="l-box">
-            {% if course.image %}
-            <img src="{{ course.image.url }}" alt="" />
-            {% else %}
-            <img src="{% static 'img/course-image.png' %}" alt="" />
-            {% endif %}
-            <h4>Dúvidas</h4>
-            <p><a href="#contato" title="" class="pure-button">Fale Conosco</a></p>
-        </div>
-    </div>
-</div>
 
-<div class="pure-g-r content-ribbon" id="contato">
-    <div class="pure-u-1">
+    <div class="contact-section" id="contato">
         <h3>Tire sua dúvida sobre o Curso</h3>
         {% if is_valid %}
-        <p>Você enviou o formulário com sucesso</p>
+        <div class="success-message">
+            ✓ Você enviou o formulário com sucesso! Responderemos em breve.
+        </div>
         {% endif %}
-        <form action="#contato" class="pure-form pure-form-aligned" method="post">
+        <form action="#contato" method="post">
             {% csrf_token %}
-            <fieldset>
-                {% for field in form %}
-                <div class="pure-control-group">
-                    {{ field.label_tag }}
-                    {{ field }}
-                    {% if field.errors %}
-                    <ul class="errorlist">
-                        {% for error in field.errors %}
-                        <li>{{ error }}</li>
-                        {% endfor %}
-                    </ul>
-                    {% endif %}
-                </div>
-                {% endfor %}
-                <div class="pure-controls">
-                    <button type="submit" class="pure-button pure-button-primary">Enviar</button>
-                </div>
-            </fieldset>
+            {% for field in form %}
+            <div class="form-group">
+                {{ field.label_tag }}
+                {{ field }}
+                {% if field.errors %}
+                <ul style="color:#ef4444;list-style:none;padding:0;margin-top:5px;">
+                    {% for error in field.errors %}
+                    <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+            </div>
+            {% endfor %}
+            <button type="submit" class="submit-btn">Enviar Mensagem</button>
         </form>
     </div>
 </div>

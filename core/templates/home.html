@@ -1,89 +1,246 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <div class="splash">
-        <div class="pure-g-r">
-            <div class="pure-u-1">
-                <div class="l-box splash-text">
-                    <h1 class="splash-head">
-                        Uma Simples Plataforma de Ensino a Distância
-                    </h1>
-                    <h2 class="splash-subhead">
-                        O Simple Learning visa simplificar o ensino a distância, provendo ferramentas objetivas e de fácil uso para cursos a distância.
-                    </h2>
-                    <p>
-                        <a href="#" class="pure-button primary-button">Saiba mais</a>
-                    </p>
-                </div>
-            </div>
+<style>
+.hero-section {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 120px 20px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+.hero-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120"><path fill="rgba(255,255,255,0.1)" d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z"></path></svg>') repeat-x;
+    opacity: 0.1;
+}
+.hero-content {
+    position: relative;
+    z-index: 1;
+    max-width: 900px;
+    margin: 0 auto;
+}
+.hero-title {
+    font-size: 56px;
+    font-weight: 800;
+    margin-bottom: 25px;
+    line-height: 1.2;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+}
+.hero-subtitle {
+    font-size: 22px;
+    margin-bottom: 40px;
+    opacity: 0.95;
+    line-height: 1.6;
+}
+.hero-btn {
+    background: white;
+    color: #667eea;
+    padding: 18px 45px;
+    font-size: 18px;
+    font-weight: 600;
+    border-radius: 50px;
+    text-decoration: none;
+    display: inline-block;
+    transition: all 0.3s ease;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+.hero-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+}
+.features-section {
+    max-width: 1200px;
+    margin: 80px auto;
+    padding: 0 20px;
+}
+.feature-card {
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    padding: 40px;
+    margin-bottom: 50px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    align-items: center;
+    transition: transform 0.3s ease;
+}
+.feature-card:hover {
+    transform: translateY(-5px);
+}
+.feature-card.reverse {
+    grid-template-columns: 1fr 1fr;
+}
+.feature-content h3 {
+    color: #2c3e50;
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 15px;
+}
+.feature-content h4 {
+    color: #667eea;
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+}
+.feature-content p {
+    color: #666;
+    font-size: 16px;
+    line-height: 1.8;
+}
+.feature-image {
+    width: 100%;
+    height: 300px;
+    border-radius: 15px;
+    object-fit: cover;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 80px;
+}
+.stats-section {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 80px 20px;
+    text-align: center;
+    margin: 80px 0;
+}
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 40px;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+.stat-item h3 {
+    font-size: 48px;
+    font-weight: 800;
+    margin-bottom: 10px;
+}
+.stat-item p {
+    font-size: 18px;
+    opacity: 0.9;
+}
+@media (max-width: 768px) {
+    .feature-card {
+        grid-template-columns: 1fr;
+    }
+    .hero-title {
+        font-size: 36px;
+    }
+}
+</style>
+
+<div class="hero-section">
+    <div class="hero-content">
+        <h1 class="hero-title">Aprenda sem Limites com Simple Learning</h1>
+        <p class="hero-subtitle">
+            A plataforma completa de ensino a distância com ferramentas intuitivas,
+            rastreamento de progresso e certificados automáticos para impulsionar sua jornada de aprendizado.
+        </p>
+        <a href="{% url 'cursos:index' %}" class="hero-btn">Explorar Cursos</a>
+    </div>
+</div>
+
+<div class="stats-section">
+    <div class="stats-grid">
+        <div class="stat-item">
+            <h3>4+</h3>
+            <p>Cursos Disponíveis</p>
+        </div>
+        <div class="stat-item">
+            <h3>21+</h3>
+            <p>Aulas Online</p>
+        </div>
+        <div class="stat-item">
+            <h3>100%</h3>
+            <p>Gratuito</p>
+        </div>
+        <div class="stat-item">
+            <h3>📜</h3>
+            <p>Certificados Digitais</p>
         </div>
     </div>
-    <div class="pure-g-r content-ribbon">
-        <div class="pure-u-2-3">
-            <div class="l-box">
-                <h4 class="content-subhead">Vídeo-aulas e materiais digitais</h4>
-                <h3>Publique suas aulas</h3>
-                <p>
-                    O Simple Learning tem um sistema simples e prático para que o professor disponibilize vídeo-aulas e materiais digitais como: pdf's, slides, imagens ...
-                </p>
-            </div>
+</div>
+
+<div class="features-section">
+    <div class="feature-card">
+        <div class="feature-content">
+            <h4>Conteúdo Rico</h4>
+            <h3>Vídeo-aulas e Materiais Digitais</h3>
+            <p>
+                Sistema completo para professores disponibilizarem vídeo-aulas e materiais digitais
+                como PDFs, slides, imagens e muito mais. Tudo organizado e de fácil acesso.
+            </p>
         </div>
-        <div class="pure-u-1-3">
-            <div class="l-box">
-                <img src="static/img/pexels-julia-m-cameron-4144225.jpg"
-                     alt="Vídeo aulas e materiais digitais.">
-            </div>
-        </div>
-    </div>
-    <div class="pure-g-r content-ribbon">
-        <div class="pure-u-1-3">
-            <div class="l-box">
-                <img src="static/img/education-5578742_1280.png"
-                     alt="Fórum de Dúvidas">
-            </div>
-        </div>
-        <div class="pure-u-2-3">
-            <div class="l-box">
-                <h4 class="content-subhead">Fórum de Dúvidas</h4>
-                <h3>Interaja com seus Alunos</h3>
-                <p>
-                    No Simple Learning você pode ter seu próprio sistema de fórum para que seus alunos possam interagir com você e com os outros alunos
-                </p>
-            </div>
+        <div class="feature-image">
+            📚
         </div>
     </div>
-    <div class="pure-g-r content-ribbon">
-        <div class="pure-u-2-3">
-            <div class="l-box">
-                <h4 class="content-subhead">Exercícios</h4>
-                <h3>Crie exercícios para avaliar seus alunos</h3>
-                <p>
-                    Você pode criar exercícios para que os alunos possam ser avaliados e todo o controle de notas e resolução dos exercícios é controlado pela plataforma, facilitando sua vida
-                </p>
-            </div>
+
+    <div class="feature-card reverse">
+        <div class="feature-image">
+            💬
         </div>
-        <div class="pure-u-1-3">
-            <div class="l-box">
-                <img src="static/img/pexels-olia-danilevich-4974912.jpg"
-                     alt="Exercícios">
-            </div>
+        <div class="feature-content">
+            <h4>Interação</h4>
+            <h3>Fórum de Dúvidas</h3>
+            <p>
+                Interaja com seus alunos através de um sistema de fórum integrado. Responda dúvidas,
+                promova discussões e crie uma comunidade de aprendizado colaborativo.
+            </p>
         </div>
     </div>
-    <div class="pure-g-r content-ribbon">
-        <div class="pure-u-1-3">
-            <div class="l-box">
-                <img src="static/img/pexels-cottonbro-6804068.jpg"
-                     alt="Mural de Avisos">
-            </div>
+
+    <div class="feature-card">
+        <div class="feature-content">
+            <h4>Avaliação</h4>
+            <h3>Sistema de Progresso Inteligente</h3>
+            <p>
+                Acompanhe o progresso dos alunos em tempo real. Sistema automático de rastreamento
+                que gera certificados ao completar 100% do curso. Tudo controlado pela plataforma.
+            </p>
         </div>
-        <div class="pure-u-2-3">
-            <div class="l-box">
-                <h4 class="content-subhead">Mural de Avisos</h4>
-                <h3>Envie anúncios diretamente para os alunos</h3>
-                <p>
-                    Organize os avisos do seu curso de forma fácil e simples.
-                </p>
-            </div>
+        <div class="feature-image">
+            📊
         </div>
     </div>
+
+    <div class="feature-card reverse">
+        <div class="feature-image">
+            📢
+        </div>
+        <div class="feature-content">
+            <h4>Comunicação</h4>
+            <h3>Mural de Avisos</h3>
+            <p>
+                Envie anúncios e comunicados diretamente para seus alunos. Mantenha todos informados
+                sobre atualizações, prazos e novidades do curso de forma simples e organizada.
+            </p>
+        </div>
+    </div>
+</div>
+
+<div style="background:#f8f9fa;padding:80px 20px;text-align:center;">
+    <div style="max-width:800px;margin:0 auto;">
+        <h2 style="font-size:42px;color:#2c3e50;margin-bottom:20px;font-weight:700;">Pronto para começar?</h2>
+        <p style="font-size:18px;color:#666;margin-bottom:40px;">
+            Cadastre-se gratuitamente e comece sua jornada de aprendizado hoje mesmo.
+        </p>
+        <a href="{% url 'accounts:register' %}" style="background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);color:white;padding:18px 45px;font-size:18px;font-weight:600;border-radius:50px;text-decoration:none;display:inline-block;box-shadow:0 10px 30px rgba(102,126,234,0.3);">
+            Criar Conta Grátis
+        </a>
+    </div>
+</div>
 {% endblock %}

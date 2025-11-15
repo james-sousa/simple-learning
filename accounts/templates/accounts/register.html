@@ -1,27 +1,142 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="pure-g-r content-ribbon">
-    <div class="pure-u-1">
-        <h2>Informe seus dados</h2>
-        <form class="pure-form pure-form-stacked" method="post">
-            {% csrf_token %}
-            <fieldset>
-                {{ form.non_field_errors }}
+<style>
+.register-container {
+    min-height: 80vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    margin: -20px;
+    padding: 20px;
+}
 
-                {% for field in form %}
-                <div class="pure-control-group">
+.register-card {
+    background: white;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 450px;
+}
+
+.register-title {
+    text-align: center;
+    color: #333;
+    margin-bottom: 30px;
+    font-size: 28px;
+    font-weight: 300;
+}
+
+.form-group {
+    margin-bottom: 25px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: #555;
+    font-weight: 500;
+    font-size: 14px;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 12px 15px;
+    border: 2px solid #e1e5e9;
+    border-radius: 8px;
+    font-size: 16px;
+    background-color: #fff;
+    color: #333;
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: #667eea;
+    background-color: #f8f9ff;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.form-group input::placeholder {
+    color: #aaa;
+}
+
+.register-btn {
+    width: 100%;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    padding: 14px 20px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.register-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+}
+
+.error-message {
+    color: #e74c3c;
+    font-size: 14px;
+    margin-top: 5px;
+}
+
+.login-link {
+    text-align: center;
+    margin-top: 25px;
+    padding-top: 20px;
+    border-top: 1px solid #eee;
+}
+
+.login-link a {
+    color: #667eea;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.login-link a:hover {
+    text-decoration: underline;
+}
+</style>
+
+<div class="register-container">
+    <div class="register-card">
+        <h2 class="register-title">Criar Conta</h2>
+        
+        <form method="post">
+            {% csrf_token %}
+            
+            {% if form.non_field_errors %}
+                <div class="error-message">
+                    {{ form.non_field_errors }}
+                </div>
+            {% endif %}
+
+            {% for field in form %}
+                <div class="form-group">
                     {{ field.label_tag }}
                     {{ field }}
-                    {{ field.errors }}
+                    {% if field.errors %}
+                        <div class="error-message">
+                            {{ field.errors }}
+                        </div>
+                    {% endif %}
                 </div>
-                {% endfor %}
+            {% endfor %}
 
-                <div class="pure-controls">
-                    <button type="submit" class="pure-button pure-button-primary">Cadastrar</button>
-                </div>
-            </fieldset>
+            <button type="submit" class="register-btn">Cadastrar</button>
         </form>
+        
+        <div class="login-link">
+            Já tem uma conta? <a href="{% url 'accounts:login' %}">Fazer login</a>
+        </div>
     </div>
 </div>
 {% endblock %}
