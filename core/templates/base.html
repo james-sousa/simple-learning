@@ -20,7 +20,11 @@
             <li><a href="{% url 'contato' %}">Contato</a></li>
             {% if user.is_authenticated %}
             <li><a href="{% url 'accounts:dashboard' %}">Painel</a></li>
-            <li><a href="{% url 'accounts:logout' %}">Sair</a></li>
+
+            <li> <form action="{% url 'accounts:logout' %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="">Sair</button>
+                </form></li>
             {% else %}
             <li><a href="{% url 'accounts:login' %}">Entrar</a></li>
             {% endif %}
